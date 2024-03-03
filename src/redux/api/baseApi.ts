@@ -4,8 +4,8 @@ import { RootState } from "../store";
 import { setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  //baseUrl: "https://server-tau-fawn.vercel.app/api",
-  baseUrl: "http://localhost:8080/api",
+  baseUrl: "https://server-tau-fawn.vercel.app/api",
+  //baseUrl: "http://localhost:8080/api",
 
   credentials: "include",
 
@@ -23,8 +23,8 @@ export const baseQueryWithRefresh = async (args: any, api: any, extraOptions: an
   try {
     if (result?.error?.status === 401) {
       console.log("fetch refresh token");
-      //const url = `https://server-tau-fawn.vercel.app/api/auth/refresh-token`;
-      const url = `http://localhost:8080/api/auth/refresh-token`;
+      const url = `https://server-tau-fawn.vercel.app/api/auth/refresh-token`;
+      //const url = `http://localhost:8080/api/auth/refresh-token`;
       const res = await fetch(url, {
         method: "POST",
         credentials: "include",
