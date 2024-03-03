@@ -18,7 +18,6 @@ const SalesHistory = () => {
           {isLoading ? (
             <SalesLoader />
           ) : (
-            //<SalesHistoryTable />
             <div className='w-full'>
               <SalesTable filterBy={filterBy} setFilterBy={setFilterBy} data={data?.data} />
             </div>

@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       {
         path: "sales-history",
         element: (
-          <Protected roles={[userRole.superAdmin, userRole.manager]}>
+          <Protected roles={[userRole.superAdmin, userRole.seller]}>
             <SalesHistory />,
           </Protected>
         ),

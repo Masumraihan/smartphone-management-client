@@ -66,12 +66,6 @@ const Sidebar = () => {
           initiallyOpened: false,
           link: "/",
         },
-        {
-          label: "Sales History",
-          icon: IconLock,
-          link: "/sales-history",
-          initiallyOpened: false,
-        },
       ];
       break;
     case userRole.seller:
@@ -80,6 +74,12 @@ const Sidebar = () => {
           label: "Sales Management",
           icon: IconCalendarStats,
           link: "/sales-management",
+          initiallyOpened: false,
+        },
+        {
+          label: "Sales History",
+          icon: IconLock,
+          link: "/sales-history",
           initiallyOpened: false,
         },
       ];

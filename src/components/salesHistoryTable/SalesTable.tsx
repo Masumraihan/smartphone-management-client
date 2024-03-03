@@ -22,7 +22,6 @@ import { ChevronDown } from "lucide-react";
 import moment from "moment";
 import { Dispatch, useRef } from "react";
 import { TSale } from "./salesTable.type";
-import { toast } from "sonner";
 const SalesTable = ({
   data,
   filterBy,
@@ -34,23 +33,19 @@ const SalesTable = ({
 }) => {
   const pdfRef: any = useRef();
 
- const downloadPDF = () => {
-   console.log("object");
-   const toastId = toast.loading("Downloading...");
-   if (pdfRef.current) {
-     const { offsetWidth, offsetHeight } = pdfRef.current;
-     html2canvas(pdfRef.current, { scale: 2 }).then((canvas) => {
-       const imgData = canvas.toDataURL("image/png");
-       const doc = new jsPDF("p", "mm", "a4");
-       const width = doc.internal.pageSize.getWidth();
-       const height = (offsetHeight / offsetWidth) * width;
-       doc.addImage(imgData, "PNG", 0, 0, width, height);
-       toast.success("Downloaded successfully", { id: toastId });
-       doc.save("receipt.pdf");
-     });
-   }
- };
-
+  const downloadPDF = () => {
+    if (pdfRef.current) {
+      const { offsetWidth, offsetHeight } = pdfRef.current;
+      html2canvas(pdfRef.current, { scale: 2 }).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const doc = new jsPDF("p", "mm", "a4");
+        const width = doc.internal.pageSize.getWidth();
+        const height = (offsetHeight / offsetWidth) * width;
+        doc.addImage(imgData, "PNG", 0, 0, width, height);
+        doc.save("receipt.pdf");
+      });
+    }
+  };
 
   return (
     <div className='container'>
@@ -80,7 +75,9 @@ const SalesTable = ({
         <Table className='w-full'>
           <TableHeader>
             <TableRow>
-              <TableHead>Product Id</TableHead>
+              <TableHead>Product Brand</TableHead>
+              <TableHead>Product Model</TableHead>
+              <TableHead>Product Buyer</TableHead>
               <TableHead>Product Quantity</TableHead>
               <TableHead>Sales Date</TableHead>
               <TableHead>Price</TableHead>
@@ -89,7 +86,9 @@ const SalesTable = ({
           <TableBody>
             {data?.map((product, i) => (
               <TableRow key={i}>
-                <TableCell className='font-medium'>{product.product._id}</TableCell>
+                <TableCell>{product.product.brand}</TableCell>
+                <TableCell>{product.product.model}</TableCell>
+                <TableCell>{product.buyer}</TableCell>
                 <TableCell>{product.salesQuantity}</TableCell>
                 <TableCell>{moment(product.salesDate).format("DD MMMM YYYY")}</TableCell>
                 <TableCell className='text-left'>${product.salesPrice}</TableCell>
