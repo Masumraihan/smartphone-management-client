@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,10 +16,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import { ChevronDown } from "lucide-react";
 import moment from "moment";
-import { Dispatch } from "react";
+import { Dispatch, useRef } from "react";
 import { TSale } from "./salesTable.type";
+import { toast } from "sonner";
 const SalesTable = ({
   data,
   filterBy,
@@ -28,12 +32,35 @@ const SalesTable = ({
   filterBy: string;
   setFilterBy: Dispatch<string>;
 }) => {
+  const pdfRef: any = useRef();
+
+ const downloadPDF = () => {
+   console.log("object");
+   const toastId = toast.loading("Downloading...");
+   if (pdfRef.current) {
+     const { offsetWidth, offsetHeight } = pdfRef.current;
+     html2canvas(pdfRef.current, { scale: 2 }).then((canvas) => {
+       const imgData = canvas.toDataURL("image/png");
+       const doc = new jsPDF("p", "mm", "a4");
+       const width = doc.internal.pageSize.getWidth();
+       const height = (offsetHeight / offsetWidth) * width;
+       doc.addImage(imgData, "PNG", 0, 0, width, height);
+       toast.success("Downloaded successfully", { id: toastId });
+       doc.save("receipt.pdf");
+     });
+   }
+ };
+
+
   return (
     <div className='container'>
-      <div className='flex justify-end w-full'>
+      <div className='flex justify-end w-full gap-x-3'>
+        <Button onClick={downloadPDF} className='bg-green-500 hover:bg-green-600'>
+          Download Invoice
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='outline' size={"lg"} className='gap-2 capitalize'>
+            <Button variant='outline' className='gap-2 capitalize'>
               {filterBy} <ChevronDown size={20} className='mt-1' />
             </Button>
           </DropdownMenuTrigger>
@@ -44,30 +71,33 @@ const SalesTable = ({
               <DropdownMenuRadioItem value='year'>Last Year</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value='month'>Last Month</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value='week'>Last week</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value='day'>Today</DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Table className='w-full'>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product Id</TableHead>
-            <TableHead>Product Quantity</TableHead>
-            <TableHead>Sales Date</TableHead>
-            <TableHead>Price</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((product) => (
-            <TableRow key={product._id}>
-              <TableCell className='font-medium'>{product.product._id}</TableCell>
-              <TableCell>{product.salesQuantity}</TableCell>
-              <TableCell>{moment(product.salesDate).format("DD MMMM YYYY")}</TableCell>
-              <TableCell className='text-left'>${product.salesPrice}</TableCell>
+      <div ref={pdfRef}>
+        <Table className='w-full'>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product Id</TableHead>
+              <TableHead>Product Quantity</TableHead>
+              <TableHead>Sales Date</TableHead>
+              <TableHead>Price</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {data?.map((product, i) => (
+              <TableRow key={i}>
+                <TableCell className='font-medium'>{product.product._id}</TableCell>
+                <TableCell>{product.salesQuantity}</TableCell>
+                <TableCell>{moment(product.salesDate).format("DD MMMM YYYY")}</TableCell>
+                <TableCell className='text-left'>${product.salesPrice}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

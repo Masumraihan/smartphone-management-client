@@ -20,48 +20,41 @@ const Sidebar = () => {
     user = jwtDecode(token) as any;
   }
 
-  let navLinks = [
-    //{ label: "Dashboard", icon: IconLayoutDashboard },
-    {
-      label: "Smartphone Management",
-      icon: IconDeviceMobile,
-      initiallyOpened: true,
-      link: "/",
-      //links: [
-      //  { label: "Overview", link: "/" },
-      //  { label: "Forecasts", link: "/" },
-      //  { label: "Outlook", link: "/" },
-      //  { label: "Real time", link: "/" },
-      //],
-    },
-    {
-      label: "Sales Management",
-      icon: IconCalendarStats,
-      link: "/sales-management",
-      initiallyOpened: false,
-    },
-    {
-      label: "Sales History",
-      icon: IconLock,
-      link: "/sales-history",
-      initiallyOpened: false,
-    },
-    {
-      label: "User Management",
-      icon: IconCalendarStats,
-      link: "/users",
-      initiallyOpened: false,
-    },
-  ];
+  let navLinks;
 
   switch (user.role) {
     case userRole.superAdmin:
       navLinks = [
+        //{ label: "Dashboard", icon: IconLayoutDashboard },
         {
           label: "Smartphone Management",
           icon: IconDeviceMobile,
-          initiallyOpened: false,
+          initiallyOpened: true,
           link: "/",
+          //links: [
+          //  { label: "Overview", link: "/" },
+          //  { label: "Forecasts", link: "/" },
+          //  { label: "Outlook", link: "/" },
+          //  { label: "Real time", link: "/" },
+          //],
+        },
+        {
+          label: "Sales Management",
+          icon: IconCalendarStats,
+          link: "/sales-management",
+          initiallyOpened: false,
+        },
+        {
+          label: "Sales History",
+          icon: IconLock,
+          link: "/sales-history",
+          initiallyOpened: false,
+        },
+        {
+          label: "User Management",
+          icon: IconCalendarStats,
+          link: "/users",
+          initiallyOpened: false,
         },
       ];
       break;
@@ -73,10 +66,15 @@ const Sidebar = () => {
           initiallyOpened: false,
           link: "/",
         },
+        {
+          label: "Sales History",
+          icon: IconLock,
+          link: "/sales-history",
+          initiallyOpened: false,
+        },
       ];
       break;
-
-    default:
+    case userRole.seller:
       navLinks = [
         {
           label: "Sales Management",
@@ -85,6 +83,7 @@ const Sidebar = () => {
           initiallyOpened: false,
         },
       ];
+      break;
   }
 
   return (
@@ -97,7 +96,7 @@ const Sidebar = () => {
 
       <div className='flex flex-col items-start justify-between'>
         <div className='flex flex-col w-full mt-2'>
-          {navLinks.map((link) => (
+          {navLinks?.map((link) => (
             <Link to={link.link} key={link.label}>
               <Button className='justify-start w-full' variant={"ghost"}>
                 {link.label}

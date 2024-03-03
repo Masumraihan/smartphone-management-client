@@ -19,7 +19,9 @@ const Protected = ({ children, roles }: TProtectedProps) => {
   }
 
   const { pathname } = useLocation();
+  console.log(roles.includes(user?.role));
   if (!roles.includes(user?.role)) {
+  
     return <Navigate to={"/login"} replace={true} state={{ from: pathname }} />;
   }
   

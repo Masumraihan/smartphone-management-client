@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { userRole } from "@/constant";
 import { TProductCard } from "@/pages/SmartphoneManagement/smartphoneManagement.types";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
+import { jwtDecode } from "jwt-decode";
+import moment from "moment";
 import { Dispatch, SetStateAction, useState } from "react";
+import ProductAddModal from "../ProductAddModal/ProductAddModal";
 import UpdateProductModal from "../UpdateProductModal/UpdateProductModal";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
-import ProductAddModal from "../ProductAddModal/ProductAddModal";
-import moment from "moment";
-import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/features/auth/authSlice";
-import { userRole } from "@/constant";
 
 type TProductCardProps = {
   product: TProductCard;
@@ -19,7 +21,12 @@ type TProductCardProps = {
 const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) => {
   const [checked, setChecked] = useState<boolean>(false);
   //const dispatch = useAppDispatch();
-  const user = useAppSelector(useCurrentUser);
+  const token = useAppSelector(useCurrentToken);
+
+  let user;
+  if (token) {
+    user = jwtDecode(token) as any;
+  }
   const {
     brand,
     battery,
@@ -73,10 +80,9 @@ const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) 
           </CardHeader>
           <CardContent className='grid space-y-1'>
             <CardTitle className='flex items-center justify-between text-base font-semibold'>
-              {model}{" "}
-              {(user?.role === userRole.superAdmin || user?.role === userRole.manager) && (
-                <UpdateProductModal product={product} />
-              )}
+              {model}
+              {user?.role === userRole.superAdmin ||
+                (user?.role === userRole.manager && <UpdateProductModal product={product} />)}
             </CardTitle>
 
             <div className='grid grid-cols-2 gap-4'>
@@ -96,7 +102,7 @@ const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) 
                   <span className='font-semibold'>Price</span> : {price}
                 </p>
                 <p className='text-xs'>
-                  <span className='font-semibold'>Release Date</span> :{" "}
+                  <span className='font-semibold'>Release Date</span> :
                   {moment(releaseDate).format("DD MMM YYYY")}
                 </p>
                 <p className='text-sm'>
@@ -131,11 +137,13 @@ const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) 
             </div>
           </CardContent>
           <CardFooter className='gap-3'>
-            <>
-              <ProductAddModal product={product}>
-                <Button className='w-full'>Duplicate & Edit</Button>
-              </ProductAddModal>
-            </>
+            {user.role === userRole.superAdmin && (
+              <>
+                <ProductAddModal product={product}>
+                  <Button className='w-full'>Duplicate & Edit</Button>
+                </ProductAddModal>
+              </>
+            )}
           </CardFooter>
         </Card>
       </div>
