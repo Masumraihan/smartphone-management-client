@@ -137,13 +137,14 @@ const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) 
             </div>
           </CardContent>
           <CardFooter className='gap-3'>
-            {user.role === userRole.superAdmin && (
-              <>
-                <ProductAddModal product={product}>
-                  <Button className='w-full'>Duplicate & Edit</Button>
-                </ProductAddModal>
-              </>
-            )}
+            {user.role === userRole.superAdmin ||
+              (user.role === userRole.manager && (
+                <>
+                  <ProductAddModal product={product}>
+                    <Button className='w-full'>Duplicate & Edit</Button>
+                  </ProductAddModal>
+                </>
+              ))}
           </CardFooter>
         </Card>
       </div>
