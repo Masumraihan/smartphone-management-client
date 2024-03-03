@@ -6,6 +6,9 @@ import { Button } from "../button";
 import { Checkbox } from "../checkbox";
 import ProductAddModal from "../ProductAddModal/ProductAddModal";
 import moment from "moment";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { userRole } from "@/constant";
 
 type TProductCardProps = {
   product: TProductCard;
@@ -16,6 +19,7 @@ type TProductCardProps = {
 const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) => {
   const [checked, setChecked] = useState<boolean>(false);
   //const dispatch = useAppDispatch();
+  const user = useAppSelector(useCurrentUser);
   const {
     brand,
     battery,
@@ -47,15 +51,19 @@ const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) 
         <Card className='shadow-lg'>
           <CardHeader className='p-2'>
             <picture className='max-h-[300px] w-full h-full relative group'>
-              <div
-                onClick={handleProductChecked}
-                className='absolute top-0 left-0 w-full h-full duration-500 opacity-0 cursor-pointer bg-black/20 group-hover:opacity-100'
-              ></div>
-              <Checkbox
-                checked={checked}
-                onCheckedChange={handleProductChecked}
-                className='absolute z-10 right-3 top-3'
-              />
+              {user?.role === userRole.superAdmin && (
+                <>
+                  <div
+                    onClick={handleProductChecked}
+                    className='absolute top-0 left-0 w-full h-full duration-500 opacity-0 cursor-pointer bg-black/20 group-hover:opacity-100'
+                  ></div>
+                  <Checkbox
+                    checked={checked}
+                    onCheckedChange={handleProductChecked}
+                    className='absolute z-10 right-3 top-3'
+                  />
+                </>
+              )}
               <img
                 src={`https://img.freepik.com/free-photo/phone-14-right-side-arabic-themed-background_187299-35435.jpg?w=826&t=st=1708451198~exp=1708451798~hmac=50094ea68ff31ec3423d8eb93e822200ecab82d70639c2be2ab7754bc4cee3e2`}
                 alt={model}
@@ -65,7 +73,10 @@ const ProductCard = ({ product, setDeletedIds, deletedIds }: TProductCardProps) 
           </CardHeader>
           <CardContent className='grid space-y-1'>
             <CardTitle className='flex items-center justify-between text-base font-semibold'>
-              {model} <UpdateProductModal product={product} />
+              {model}{" "}
+              {(user?.role === userRole.superAdmin || user?.role === userRole.manager) && (
+                <UpdateProductModal product={product} />
+              )}
             </CardTitle>
 
             <div className='grid grid-cols-2 gap-4'>

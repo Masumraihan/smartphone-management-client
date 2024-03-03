@@ -20,7 +20,7 @@ const SalesHistory = () => {
           ) : (
             //<SalesHistoryTable />
             <div className='w-full'>
-              <SalesTable filterBy={filterBy} setFilterBy={setFilterBy} data={data.data} />
+              <SalesTable filterBy={filterBy} setFilterBy={setFilterBy} data={data?.data} />
             </div>
           )}
         </>

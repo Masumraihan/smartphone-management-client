@@ -16,6 +16,9 @@ import {
 } from "../../redux/features/product/productApi";
 import { TProductCard } from "./smartphoneManagement.types";
 import moment from "moment";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { userRole } from "@/constant";
 
 const SmartphoneManagement = () => {
   const [deleteProduct] = useDeleteProductMutation();
@@ -52,6 +55,7 @@ const SmartphoneManagement = () => {
     }
   };
 
+  const user = useAppSelector(useCurrentUser);
 
   return (
     <div>
@@ -69,26 +73,30 @@ const SmartphoneManagement = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder='Search Product By Model'
             />
-            {deletedIds.length > 0 && (
+            {deletedIds.length > 0 && user?.role === userRole.superAdmin && (
               <ConfirmModal confirmFn={handleDeleteProduct}>
                 <Button variant='destructive'>Delete</Button>
               </ConfirmModal>
             )}
-            <ProductAddModal>
-              <Button size={"icon"} className='md:hidden'>
-                <Plus size={20} />
-              </Button>
-            </ProductAddModal>
+            {(user?.role === userRole.superAdmin || user?.role === userRole.manager) && (
+              <ProductAddModal>
+                <Button size={"icon"} className='md:hidden'>
+                  <Plus size={20} />
+                </Button>
+              </ProductAddModal>
+            )}
           </div>
           <div className='items-center justify-end hidden w-full gap-4 md:flex '>
             <Button size='sm' variant={"outline"} className='gap-2'>
               <ArrowDownUp size={16} /> Sort By
             </Button>
-            <ProductAddModal>
-              <Button size='sm' className='gap-2'>
-                <Plus size={20} /> Add Smartphone
-              </Button>
-            </ProductAddModal>
+            {(user?.role === userRole.superAdmin || user?.role === userRole.manager) && (
+              <ProductAddModal>
+                <Button size='sm' className='gap-2'>
+                  <Plus size={20} /> Add Smartphone
+                </Button>
+              </ProductAddModal>
+            )}
           </div>
         </div>
         {isLoading ? (

@@ -5,6 +5,8 @@ import SalesManagement from "../pages/SalesManagement/SalesManagement";
 import SalesHistory from "../pages/SalesHistory/SalesHistory";
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
+import Protected from "@/layout/mainLayout/Protected";
+import { userRole } from "@/constant";
 
 const router = createBrowserRouter([
   {
@@ -13,15 +15,27 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <SmartphoneManagement />,
+        element: (
+          <Protected roles={[userRole.superAdmin, userRole.manager, userRole.seller]}>
+            <SmartphoneManagement />
+          </Protected>
+        ),
       },
       {
         path: "sales-management",
-        element: <SalesManagement />,
+        element: (
+          <Protected roles={[userRole.superAdmin, userRole.manager]}>
+            <SalesManagement />
+          </Protected>
+        ),
       },
       {
         path: "sales-history",
-        element: <SalesHistory />,
+        element: (
+          <Protected roles={[userRole.superAdmin]}>
+            <SalesHistory />,
+          </Protected>
+        ),
       },
     ],
   },
