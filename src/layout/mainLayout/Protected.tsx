@@ -20,7 +20,6 @@ const Protected = ({ children, roles }: TProtectedProps) => {
   }
 
   if (!token) {
-    console.log(false);
     return <Navigate to={"/login"} replace={true} />;
   }
 

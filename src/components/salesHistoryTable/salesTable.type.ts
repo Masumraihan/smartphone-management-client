@@ -25,4 +25,15 @@ export interface TSale {
   salesPrice: number;
   product: TProduct;
   salesDate: Date;
+  seller: TSeller;
 }
+
+export type TSeller = {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};

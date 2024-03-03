@@ -80,6 +80,7 @@ const SalesTable = ({
               <TableHead>Product Buyer</TableHead>
               <TableHead>Product Quantity</TableHead>
               <TableHead>Sales Date</TableHead>
+              <TableHead>Seller Name</TableHead>
               <TableHead>Price</TableHead>
             </TableRow>
           </TableHeader>
@@ -91,6 +92,7 @@ const SalesTable = ({
                 <TableCell>{product.buyer}</TableCell>
                 <TableCell>{product.salesQuantity}</TableCell>
                 <TableCell>{moment(product.salesDate).format("DD MMMM YYYY")}</TableCell>
+                <TableCell>{product.seller.name}</TableCell>
                 <TableCell className='text-left'>${product.salesPrice}</TableCell>
               </TableRow>
             ))}
