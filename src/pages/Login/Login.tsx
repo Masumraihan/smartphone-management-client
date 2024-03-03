@@ -8,6 +8,7 @@ import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { setUser } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 type TLoginData = {
   email: string;
@@ -26,20 +27,27 @@ const Login = () => {
       const res = await login(info).unwrap();
       if (res.success) {
         toast.success("Login successfully");
-        dispatch(setUser({ user: res.data?.user, token: res.data?.accessToken }));
-        switch (res.data.user.role) {
+        const token = res.data?.accessToken;
+        let user;
+        if (token) {
+          user = jwtDecode(token) as any;
+        }
+        console.log(user);
+        dispatch(setUser({ user: res.data?.user, token }));
+        switch (user.role) {
           case "superAdmin":
             navigate("/");
             break;
           case "manager":
             navigate("/");
             break;
-          default:
+          case "seller":
             navigate("/sales-management");
+            break;
         }
       }
     } catch (error: any) {
-      setErrorText(error.data.message);
+      setErrorText(error?.data?.message);
     }
   };
   return (

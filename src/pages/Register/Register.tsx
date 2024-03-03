@@ -27,7 +27,7 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error: any) {
-      setErrorText(error.data.message);
+      setErrorText(error?.data?.message);
     }
   };
 

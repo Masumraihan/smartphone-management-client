@@ -13,18 +13,18 @@ type TProtectedProps = {
 const Protected = ({ children, roles }: TProtectedProps) => {
   const token = useAppSelector(useCurrentToken);
 
+  const { pathname } = useLocation();
   let user;
   if (token) {
     user = jwtDecode(token) as any;
   }
 
-  const { pathname } = useLocation();
-  if (!roles.includes(user?.role)) {
-    console.log(true);
-    return <Navigate to={"/login"} replace={true} state={{ from: pathname }} />;
+  if (!token) {
+    console.log(false);
+    return <Navigate to={"/login"} replace={true} />;
   }
 
-  if (!token) {
+  if (!roles.includes(user?.role)) {
     return <Navigate to={"/login"} replace={true} state={{ from: pathname }} />;
   }
 
