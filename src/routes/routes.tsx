@@ -7,6 +7,7 @@ import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import Protected from "@/layout/mainLayout/Protected";
 import { userRole } from "@/constant";
+import UserManagement from "@/pages/UserManagement/UserManagement";
 
 const router = createBrowserRouter([
   {
@@ -16,15 +17,16 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <Protected roles={[userRole.superAdmin, userRole.manager, userRole.seller]}>
+          <Protected roles={[userRole.superAdmin, userRole.manager]}>
             <SmartphoneManagement />
           </Protected>
         ),
       },
       {
         path: "sales-management",
+        
         element: (
-          <Protected roles={[userRole.superAdmin, userRole.manager]}>
+          <Protected roles={[userRole.superAdmin, userRole.seller]}>
             <SalesManagement />
           </Protected>
         ),
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
         element: (
           <Protected roles={[userRole.superAdmin]}>
             <SalesHistory />,
+          </Protected>
+        ),
+      },
+      {
+        path: "users",
+        element: (
+          <Protected roles={[userRole.superAdmin]}>
+            <UserManagement />,
           </Protected>
         ),
       },

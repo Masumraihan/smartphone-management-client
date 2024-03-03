@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { setUser } from "../../redux/features/auth/authSlice";
@@ -15,8 +15,6 @@ const Login = () => {
   const [login, { error }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from || "/";
 
   const { handleSubmit, register } = useForm<TLoginData>();
 
@@ -25,7 +23,16 @@ const Login = () => {
     if (res.success) {
       toast.success("Login successfully");
       dispatch(setUser({ user: res.data?.user, token: res.data?.accessToken }));
-      navigate(from, { replace: true });
+      switch (res.data.user.role) {
+        case "superAdmin":
+          navigate("/");
+          break;
+        case "manager":
+          navigate("/");
+          break;
+        default:
+          navigate("/sales-management");
+      }
     }
   };
   return (
