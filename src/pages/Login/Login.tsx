@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -6,33 +7,39 @@ import { toast } from "sonner";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { setUser } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
+import { useState } from "react";
 
 type TLoginData = {
   email: string;
   password: string;
 };
 const Login = () => {
-  const [login, { error }] = useLoginMutation();
+  const [login] = useLoginMutation();
+  const [errorText, setErrorText] = useState<string>("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { handleSubmit, register } = useForm<TLoginData>();
 
   const handleLogin = async (info: TLoginData) => {
-    const res = await login(info).unwrap();
-    if (res.success) {
-      toast.success("Login successfully");
-      dispatch(setUser({ user: res.data?.user, token: res.data?.accessToken }));
-      switch (res.data.user.role) {
-        case "superAdmin":
-          navigate("/");
-          break;
-        case "manager":
-          navigate("/");
-          break;
-        default:
-          navigate("/sales-management");
+    try {
+      const res = await login(info).unwrap();
+      if (res.success) {
+        toast.success("Login successfully");
+        dispatch(setUser({ user: res.data?.user, token: res.data?.accessToken }));
+        switch (res.data.user.role) {
+          case "superAdmin":
+            navigate("/");
+            break;
+          case "manager":
+            navigate("/");
+            break;
+          default:
+            navigate("/sales-management");
+        }
       }
+    } catch (error: any) {
+      setErrorText(error.data.message);
     }
   };
   return (
@@ -54,7 +61,7 @@ const Login = () => {
             <span className='inline-block mb-1 font-semibold'>Password</span>
             <Input {...register("password")} placeholder='Your password' type='password' />
           </label>
-          {error && <p style={{ color: "red" }}> Invalid Credential </p>}
+          {errorText && <p style={{ color: "red" }}> {errorText}</p>}
           <Button type='submit' className='w-full'>
             Login
           </Button>

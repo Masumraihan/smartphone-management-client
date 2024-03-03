@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useRegisterMutation } from "../../redux/features/auth/authApi";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 type TRegisterData = {
   name: string;
@@ -12,15 +14,20 @@ type TRegisterData = {
 };
 
 const Register = () => {
+  const [errorText, setErrorText] = useState<string>("");
   const { handleSubmit, register } = useForm<TRegisterData>();
-  const [userRegister, { error }] = useRegisterMutation();
+  const [userRegister] = useRegisterMutation();
   const navigate = useNavigate();
   const handleRegister = async (data: TRegisterData) => {
-    const res = await userRegister(data).unwrap();
+    try {
+      const res = await userRegister(data).unwrap();
 
-    if (res?.success) {
-      toast.success("Register successfully");
-      navigate("/login");
+      if (res?.success) {
+        toast.success("Register successfully");
+        navigate("/login");
+      }
+    } catch (error: any) {
+      setErrorText(error.data.message);
     }
   };
 
@@ -53,7 +60,7 @@ const Register = () => {
               required
             />
           </label>
-          {error && <p style={{ color: "red" }}>Please provide valid credentials</p>}
+          {errorText && <p style={{ color: "red" }}> {errorText}</p>}
           <Button type='submit' className='w-full'>
             Login
           </Button>
