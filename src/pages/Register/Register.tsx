@@ -37,7 +37,7 @@ const Register = () => {
         <h1 className='text-lg font-bold '>Welcome to product management!</h1>
         <form onSubmit={handleSubmit(handleRegister)} className='space-y-4'>
           <label htmlFor='name' className='block'>
-            <span className='inline-block mb-1 font-semibold'>Password</span>
+            <span className='inline-block mb-1 font-semibold'>Name</span>
             <Input {...register("name")} placeholder='Your Name' type='text' required />
           </label>
           <label htmlFor='email' className='block'>
