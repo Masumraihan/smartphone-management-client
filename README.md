@@ -1,6 +1,6 @@
 # Product Management
 
-This is a product management dashboard using React, Typescript, Redux toolkit and tailwind css.
+This is a product management dashboard using React, Typescript, Redux toolkit, and Tailwind CSS.
 
 ## Table of Contents
 
@@ -20,56 +20,52 @@ This is a product management dashboard using React, Typescript, Redux toolkit an
 
 ## Introduction
 
-Brief introduction to the project and its objectives.
+This project aims to provide a comprehensive solution for managing smartphone inventory and sales. It offers a user-friendly interface and robust functionality for efficient management.
 
 ## Authentication
 
-Describe how user registration and login work using JWT for secure authentication.
+User authentication is implemented using JSON Web Tokens (JWT) for secure authentication. Users can register, login, and access the system securely.
 
 ## Functionality
 
 ### Smartphone Management
 
-- CRUD Operations:
-  - Add new smartphones to inventory.
-  - Delete existing smartphones from inventory.
-  - Update smartphone details.
-  - Read and view list of smartphones in inventory.
-- Robust filtering system:
-  - Allow effective narrowing down of smartphone selections based on various criteria.
+- **CRUD Operations:** Managers can add, delete, and update smartphones in the inventory.
+- **View Inventory:** Both managers and sellers can view the list of smartphones in the inventory.
+- **Robust Filtering:** Effective filtering options are provided to narrow down smartphone selections based on various criteria.
 
 ### Sales Management
 
-- Users can search for a product to sell and initiate the sale process.
-- Upon finding the product, users can fill out a form with the following fields:
-  - Quantity of product to be sold.
-  - Name of the buyer.
-  - Date of the sale.
-- Note: Products are removed from inventory if the quantity reaches zero.
+- **Initiate Sale Process:** Sellers can search for products and initiate the sale process.
+- **Sale Form:** Sellers can fill out a form with details such as quantity, buyer's name, and sale date.
+- **Inventory Update:** Products are automatically removed from the inventory when the quantity reaches zero.
 
 ### Sales History
 
-- View sales history categorized by:
-  - Weekly
-  - Daily
-  - Monthly
-  - Yearly
+- **Categorized View:** Sales history is categorized by weekly, daily, monthly, and yearly periods.
+- **Seller's Sales History:** Sellers can view their own sales history, including invoice download functionality.
 
 ## User Interface Features
 
-- Real-time UI updates for changes.
-- Utilization of RTK Query for efficient CRUD operations.
-- Re-fetching functionality for data accuracy and consistency.
+- **Real-time Updates:** The UI provides real-time updates for changes in the inventory and sales.
+- **Efficient CRUD Operations:** Utilization of RTK Query ensures efficient CRUD operations with optimized performance.
+- **Data Re-fetching:** Re-fetching functionality is implemented to ensure data accuracy and consistency.
 
 ## State Management
 
-- Redux is used for state management to maintain consistent application state.
+- **Redux:** Redux is used for state management to maintain a consistent application state across components.
 
 ## Additional Features
 
-- Bulk delete product options.
-- Duplicate & edit functionality to create variants based on existing products.
-- Any other relevant features that enhance usability and functionality.
+- **Role-based Access Control:** Three roles are implemented - SuperAdmin, Manager, and Seller.
+- **Role-specific Functionality:** Each role has access to specific functionalities, ensuring secure and controlled access.
+- **Bulk Delete:** Managers can perform bulk delete operations for efficient inventory management.
+- **Duplicate & Edit:** Users can duplicate and edit existing products to create variants based on their needs.
+- **New Roles and Functionality:**
+  - **SuperAdmin:** Can access all functionalities.
+  - **Manager:** Can add and update products.
+  - **Seller:** Can sell products, view sales history, and download invoices.
+- **Invoice Download:** Sellers can download invoices for their sales transactions.
 
 ## Setup Instructions
 
@@ -83,17 +79,31 @@ Follow these steps to set up the project:
 
 ## Usage
 
-Provide instructions on how to use the application once it's set up.
+Once the project is set up, follow these instructions to use the application:
+
+[Provide usage instructions here]
 
 ## Contributing
 
-Explain how others can contribute to the project, including guidelines for pull requests and contributions.
+Contributions to the project are welcome! To contribute:
 
-## Demo Email : user@gmail.com
-## Demo Pass : 123456
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them with descriptive messages.
+4. Push your changes to your fork.
+5. Submit a pull request to the main repository.
 
-### [Project Overview Video](https://drive.google.com/file/d/13lcSFGa-1huwbMmTIL6IhFsJF9TnMQ1E/view?usp=sharing)
+#### Demo Super Admin Email : superAdmin@gmail.com
+#### Demo Super Admin Pass : 123456
 
-### [Server Github](https://github.com/Porgramming-Hero-web-course/l2b2-full-stack-a5-server-side-Masumraihan)
+#### Demo Manager Email : test@gmail.com
+#### Demo manager Pass : 123456
+
+#### Demo Seller Email : m@gmail.com
+#### Demo Seller Pass : 123456
+
+### [Project Overview Video](https://drive.google.com/file/d/1nUbvemq86N7Wdczt7YCQtpot0zAqv7St/view?usp=sharing)
+
+### [Server Github](https://github.com/Porgramming-Hero-web-course/l2-b2-assignment-6-backend-Masumraihan)
 
 ### [Live Site](https://client-weld-omega.vercel.app/)
