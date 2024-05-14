@@ -107,47 +107,26 @@ const SmartphoneManagement = () => {
           </div>
         ) : (
           <div className='grid grid-cols-1 gap-4 lg:grid-cols-4'>
-            {
-              <div>
-                <div className='hidden lg:block'>
-                  <FilterProduct
-                    setMinPrice={setMinPrice}
-                    minPrice={minPrice}
-                    setBrand={setBrand}
-                    setRam={setRam}
-                    setStorage={setStorage}
-                    setMaxPrice={setMaxPrice}
-                    maxPrice={maxPrice}
-                    date={date}
-                    setDate={setDate}
-                    setOperatingSystem={setOperatingSystem}
-                    setScreenSize={setScreenSize}
-                    setChecked={setChecked}
-                    checked={checked}
-                  />
-                </div>
-                <div className='flex gap-4 lg:hidden'>
-                  <FilterSheet
-                    maxPrice={maxPrice}
-                    setMaxPrice={setMaxPrice}
-                    setRam={setRam}
-                    setStorage={setStorage}
-                    priceRange={minPrice}
-                    setPriceRange={setMinPrice}
-                    setBrand={setBrand}
-                    date={date}
-                    setDate={setDate}
-                    setOperatingSystem={setOperatingSystem}
-                    setScreenSize={setScreenSize}
-                    setChecked={setChecked}
-                    checked={checked}
-                  />
-                  <Button size='sm' variant={"outline"} className={"gap-2"}>
-                    <ArrowDownUp size={16} /> Sort By
-                  </Button>
-                </div>
-              </div>
-            }
+            <div className='flex gap-4 lg:hidden'>
+              <FilterSheet
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+                setRam={setRam}
+                setStorage={setStorage}
+                priceRange={minPrice}
+                setPriceRange={setMinPrice}
+                setBrand={setBrand}
+                date={date}
+                setDate={setDate}
+                setOperatingSystem={setOperatingSystem}
+                setScreenSize={setScreenSize}
+                setChecked={setChecked}
+                checked={checked}
+              />
+              <Button size='sm' variant={"outline"} className={"gap-2"}>
+                <ArrowDownUp size={16} /> Sort By
+              </Button>
+            </div>
             <div className='lg:col-span-3'>
               {products?.data?.length === 0 ? (
                 <p className='mt-10 text-3xl font-bold text-center text-black/20'>
@@ -166,6 +145,26 @@ const SmartphoneManagement = () => {
                   ))}
                 </div>
               )}
+            </div>
+
+            <div className='hidden lg:block'>
+              <>
+                <FilterProduct
+                  setMinPrice={setMinPrice}
+                  minPrice={minPrice}
+                  setBrand={setBrand}
+                  setRam={setRam}
+                  setStorage={setStorage}
+                  setMaxPrice={setMaxPrice}
+                  maxPrice={maxPrice}
+                  date={date}
+                  setDate={setDate}
+                  setOperatingSystem={setOperatingSystem}
+                  setScreenSize={setScreenSize}
+                  setChecked={setChecked}
+                  checked={checked}
+                />
+              </>
             </div>
           </div>
         )}

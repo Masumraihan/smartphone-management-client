@@ -63,11 +63,17 @@ const Login = () => {
               type='email'
               required
               id='email'
+              defaultValue='superAdmin@gmail.com'
             />
           </label>
           <label htmlFor='password' className='block'>
             <span className='inline-block mb-1 font-semibold'>Password</span>
-            <Input {...register("password")} placeholder='Your password' type='password' />
+            <Input
+              {...register("password")}
+              placeholder='Your password'
+              type='password'
+              defaultValue='123456'
+            />
           </label>
           {errorText && <p style={{ color: "red" }}> {errorText}</p>}
           <Button type='submit' className='w-full'>
