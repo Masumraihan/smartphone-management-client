@@ -4,8 +4,8 @@ import { RootState } from "../store";
 import { setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  //baseUrl: "https://server-tau-fawn.vercel.app/api",
-  baseUrl: "http://localhost:8080/api",
+  baseUrl: "https://server-tau-fawn.vercel.app/api",
+  //baseUrl: "http://localhost:8080/api",
 
   credentials: "include",
 
